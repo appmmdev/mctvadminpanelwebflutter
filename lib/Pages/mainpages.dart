@@ -22,22 +22,19 @@ class _MainPagesState extends State<MainPages> {
     return DefaultTabController(
         length: _pages.length,
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text('MCTV'),
-          ),
           body: Column(
             children: [
               const TabBar(tabs: [
                 Tab(
                   child: Text(
                     'Movie',
-                    style: TextStyle(color: Colors.black, fontSize: 10),
+                    style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ),
                 Tab(
                   child: Text(
                     'Series',
-                    style: TextStyle(color: Colors.black, fontSize: 10),
+                    style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ),
               ]),

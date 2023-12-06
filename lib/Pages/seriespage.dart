@@ -19,7 +19,7 @@ class _SeriesPageState extends State<SeriesPage> {
 
   var movietitlecontroller = TextEditingController();
   var descriptioncontroller = TextEditingController();
-  var movie_cover_imgcontroller = TextEditingController();
+  var movieCoverImgController = TextEditingController();
   var linkcontroller = TextEditingController();
   var countcontroller = TextEditingController();
   var yearcontroller = TextEditingController();
@@ -34,11 +34,16 @@ class _SeriesPageState extends State<SeriesPage> {
   }
 
   List<SeriesModal> dataList = [];
-  List<String> temporary_category = [
+  List<String> temporaryCategory = [
     'Series',
   ];
 
   List<bool> selectedCategories = [
+    false,
+    false,
+    false,
+    false,
+    false,
     false,
     false,
     false,
@@ -72,22 +77,22 @@ class _SeriesPageState extends State<SeriesPage> {
 
   void getList() {
     geteplist();
-    var catelist = temporary_category.toString();
+    var catelist = temporaryCategory.toString();
 
     var formattedcatelist = catelist.substring(1, catelist.length - 1);
 
     dataList.add(SeriesModal(
         movietitlecontroller.text,
         descriptioncontroller.text,
-        movie_cover_imgcontroller.text,
-        movie_cover_imgcontroller.text,
+        movieCoverImgController.text,
+        movieCoverImgController.text,
         yearcontroller.text,
         formattedcatelist,
         studiocontroller.text,
         eplist));
-    totalpost = '' + dataList.length.toString();
+    totalpost = dataList.length.toString();
 
-    var encoder = JsonEncoder.withIndent("");
+    var encoder = const JsonEncoder.withIndent("");
 
     var ss = encoder.convert(dataList).toString();
 
@@ -102,14 +107,19 @@ class _SeriesPageState extends State<SeriesPage> {
   void cleartext() {
     movietitlecontroller.text = '';
     descriptioncontroller.text = '';
-    movie_cover_imgcontroller.text = '';
+    movieCoverImgController.text = '';
 
     countcontroller.text = '';
     linkcontroller.text = '';
     studiocontroller.text = '';
     yearcontroller.text = '';
-    temporary_category = [];
+    temporaryCategory = [];
     selectedCategories = [
+      false,
+      false,
+      false,
+      false,
+      false,
       false,
       false,
       false,
@@ -136,59 +146,119 @@ class _SeriesPageState extends State<SeriesPage> {
             Row(
               children: [
                 Expanded(
-                  child: Container(
-                    child: Form(
-                      key: formkey,
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: TextFormField(
-                                controller: movietitlecontroller,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Series Title can't be Empty";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                    labelText: 'Series Title',
-                                    border: OutlineInputBorder())),
+                  child: Form(
+                    key: formkey,
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          child: TextFormField(
+                              controller: movietitlecontroller,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Series Title can't be Empty";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              decoration: const InputDecoration(
+                                  labelText: 'Series Title',
+                                  border: OutlineInputBorder())),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          child: TextFormField(
+                              controller: movieCoverImgController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Series Image can't be Empty";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              decoration: const InputDecoration(
+                                  labelText: 'Series Image',
+                                  border: OutlineInputBorder())),
+                        ),
+                        Row(children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: TextFormField(
+                                  controller: linkcontroller,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Link can't be Empty";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  decoration: const InputDecoration(
+                                      labelText: 'Link',
+                                      border: OutlineInputBorder())),
+                            ),
                           ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: TextFormField(
-                                controller: movie_cover_imgcontroller,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Series Image can't be Empty";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                    labelText: 'Series Image',
-                                    border: OutlineInputBorder())),
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: TextFormField(
+                                  controller: countcontroller,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Count can't be Empty";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  decoration: const InputDecoration(
+                                      labelText: 'Count',
+                                      border: OutlineInputBorder())),
+                            ),
                           ),
-                          Row(children: [
+                        ]),
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          child: TextFormField(
+                              controller: descriptioncontroller,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Description can't be Empty";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              maxLines: 5,
+                              decoration: const InputDecoration(
+                                  labelText: 'Description',
+                                  border: OutlineInputBorder())),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
                             Expanded(
                               child: Container(
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 5),
                                 child: TextFormField(
-                                    controller: linkcontroller,
+                                    controller: studiocontroller,
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return "Link can't be Empty";
+                                        return "Studio can't be Empty";
                                       } else {
                                         return null;
                                       }
                                     },
                                     decoration: const InputDecoration(
-                                        labelText: 'Link',
+                                        labelText: 'Studio',
                                         border: OutlineInputBorder())),
                               ),
                             ),
@@ -197,162 +267,107 @@ class _SeriesPageState extends State<SeriesPage> {
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 5),
                                 child: TextFormField(
-                                    controller: countcontroller,
+                                    controller: yearcontroller,
                                     keyboardType: TextInputType.number,
                                     inputFormatters: <TextInputFormatter>[
                                       FilteringTextInputFormatter.digitsOnly,
                                     ],
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return "Count can't be Empty";
+                                        return "Year can't be Empty";
                                       } else {
                                         return null;
                                       }
                                     },
                                     decoration: const InputDecoration(
-                                        labelText: 'Count',
+                                        labelText: 'Year',
                                         border: OutlineInputBorder())),
                               ),
                             ),
-                          ]),
-                          Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: TextFormField(
-                                controller: descriptioncontroller,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Description can't be Empty";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                maxLines: 5,
-                                decoration: const InputDecoration(
-                                    labelText: 'Description',
-                                    border: OutlineInputBorder())),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          ],
+                        ),
+                        SizedBox(
+                          height: 150,
+                          child: ListView(
+                            physics: const NeverScrollableScrollPhysics(),
                             children: [
-                              Expanded(
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  child: TextFormField(
-                                      controller: studiocontroller,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return "Studio can't be Empty";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      decoration: const InputDecoration(
-                                          labelText: 'Studio',
-                                          border: OutlineInputBorder())),
+                              GridView.builder(
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 6,
+                                  crossAxisSpacing:
+                                      4.0, // Adjust the cross-axis spacing as needed
+                                  mainAxisSpacing:
+                                      4.0, // Adjust the main-axis spacing as needed
+                                  childAspectRatio: 3.0, // A
                                 ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  child: TextFormField(
-                                      controller: yearcontroller,
-                                      keyboardType: TextInputType.number,
-                                      inputFormatters: <TextInputFormatter>[
-                                        FilteringTextInputFormatter.digitsOnly,
-                                      ],
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return "Year can't be Empty";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      decoration: const InputDecoration(
-                                          labelText: 'Year',
-                                          border: OutlineInputBorder())),
-                                ),
+                                itemCount: Const_Data.category_list.length,
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    children: [
+                                      Text(Const_Data.category_list[index]),
+                                      Checkbox(
+                                        value: selectedCategories[index],
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedCategories[index] = value!;
+                                            if (value) {
+                                              temporaryCategory.add(Const_Data
+                                                  .category_list[index]);
+                                            } else {
+                                              temporaryCategory.remove(
+                                                  Const_Data
+                                                      .category_list[index]);
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
                             ],
                           ),
-                          Container(
-                            height: 200,
-                            child: GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount:
-                                    8, // Adjust the number of columns as needed
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (formkey.currentState!.validate()) {
+                                        getList();
+                                      }
+                                    });
+                                  },
+                                  child: const Text('Add')),
+                              const SizedBox(
+                                width: 20,
                               ),
-                              itemCount: Const_Data.category_list.length,
-                              itemBuilder: (context, index) {
-                                return Row(
-                                  children: [
-                                    Text(Const_Data.category_list[index]),
-                                    Checkbox(
-                                      value: selectedCategories[index],
-                                      onChanged: (value) {
-                                        setState(() {
-                                          selectedCategories[index] = value!;
-                                          if (value) {
-                                            temporary_category.add(Const_Data
-                                                .category_list[index]);
-                                          } else {
-                                            temporary_category.remove(Const_Data
-                                                .category_list[index]);
-                                          }
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    cleartext();
+
+                                    convertedjson.text = '';
+
+                                    dataList = [];
+                                    eplist = [];
+                                  },
+                                  child: const Text('Reset')),
+                            ],
                           ),
-                          Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          if (formkey.currentState!
-                                              .validate()) {
-                                            getList();
-                                          }
-                                        });
-                                      },
-                                      child: const Text('Add')),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        cleartext();
-
-                                        convertedjson.text = '';
-
-                                        dataList = [];
-                                        eplist = [];
-                                      },
-                                      child: const Text('Reset')),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
                 ),
                 Form(
                   child: Column(
                     children: [
-                      Text('Total Post in List\t ${totalpost}\t post'),
+                      Text('Total Post in List\t $totalpost\t post'),
                       Container(
                         width: 400,
                         margin: const EdgeInsets.symmetric(
