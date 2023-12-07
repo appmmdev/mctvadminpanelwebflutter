@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mctvadminweb/Pages/book.dart';
 import 'package:mctvadminweb/Pages/moviespage.dart';
 import 'package:mctvadminweb/Pages/seriespage.dart';
 
@@ -12,10 +13,7 @@ class MainPages extends StatefulWidget {
 class _MainPagesState extends State<MainPages> {
   int selectedIndex = 0;
 
-  final _pages = [
-    const MoviePage(),
-    const SeriesPage(),
-  ];
+  final _pages = [const MoviePage(), const SeriesPage(), const BookPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +32,12 @@ class _MainPagesState extends State<MainPages> {
                 Tab(
                   child: Text(
                     'Series',
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    'Books',
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ),
